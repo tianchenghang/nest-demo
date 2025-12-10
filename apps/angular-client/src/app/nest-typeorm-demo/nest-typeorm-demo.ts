@@ -1,4 +1,4 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { Api, ICond, IEmail, IPeople } from './api';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatListModule } from '@angular/material/list';
@@ -21,16 +21,17 @@ import { MatSelectModule } from '@angular/material/select';
   ],
   template: `
     <div>totalCount: {{ totalCount() }}</div>
+
     <mat-list>
       @for (people of peopleList(); track people.id) {
       <mat-list-item>
-        <div>id: {{ people.id }}, name: {{ people.name }}, age: {{ people.age }}</div>
-        <div>emailList</div>
+        <div matListItemTitle>id: {{ people.id }}, name: {{ people.name }}, age: {{ people.age }}</div>
+        <div matListItemLine>emailList</div>
         <mat-list>
           @for (email of people.emailList; track $index) {
-          <mat-list-item>{{ email.addr }}</mat-list-item>
+          <mat-list-item matListItemLine>{{ email.addr }}</mat-list-item>
           } @empty {
-          <mat-list-item>Empty emailList</mat-list-item>
+          <mat-list-item matListItemLine>Empty emailList</mat-list-item>
           }
         </mat-list>
       </mat-list-item>
@@ -171,7 +172,10 @@ import { MatSelectModule } from '@angular/material/select';
     </button>
   `,
 })
-export class NestTypeormDemo {
+export class NestTypeormDemo implements OnInit {
+  ngOnInit() {
+    this.fetchPeopleList();
+  }
   api = inject<Api>(Api);
 
   totalCount = signal<number>(0);
@@ -224,6 +228,7 @@ export class NestTypeormDemo {
       next: (res) => {
         console.log('[insertPeople] res:', res);
         this.resetPeopleFormData();
+        this.fetchPeopleList();
       },
       error: console.log,
     });

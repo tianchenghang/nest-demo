@@ -3,6 +3,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { DemoModule } from './demo/demo.module';
+import { PeopleModule } from './people/people.module';
 
 @Module({
   imports: [
@@ -14,12 +15,13 @@ import { DemoModule } from './demo/demo.module';
       port: 3333, // "3333:3306"
       database: 'db0',
       // entities: [__dirname + '/**/*.entity{.ts,.js}'], // 加载实体
-      autoLoadEntities: true, // 自动加载实体
+      autoLoadEntities: true, // 自动加载 @Entity() 实体类
       synchronize: true, // 自动将 @Entity() 实体类同步到数据库
       retryAttempts: 10,
       retryDelay: 3000,
     }),
     DemoModule,
+    PeopleModule,
   ],
   controllers: [AppController],
   providers: [AppService],

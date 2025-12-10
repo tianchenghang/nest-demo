@@ -31,26 +31,26 @@ export interface IEmail {
 export class Api {
   http = inject<HttpClient>(HttpClient);
   insertPeople(people: IPeople) {
-    return this.http.post<IRes>('/people', people);
+    return this.http.post<IRes>('/api/people', people);
   }
 
   fetchPeopleList(cond: ICond) {
-    return this.http.get<IRes>('/people', { params: { ...cond } });
+    return this.http.get<IRes>('/api/people', { params: { ...cond } });
   }
 
   updatePeople(people: Partial<IPeople> & { id: number }) {
-    return this.http.patch<IRes>(`/people/${people.id}`, people)
+    return this.http.patch<IRes>(`/api/people/${people.id}`, people)
   }
 
   deletePeople(id: number) {
-    return this.http.delete<IRes>(`/people/${id}`)
+    return this.http.delete<IRes>(`/api/people/${id}`)
   }
 
   addPeopleEmail(email: IEmail) {
-    return this.http.post<IRes>('/people/email', email)
+    return this.http.post<IRes>('/api/people/email', email)
   }
 
   swapEmailAddr(addrList: [string, string]) {
-    return this.http.post<IRes>('/people/swapEmailAddr', addrList)
+    return this.http.post<IRes>('/api/people/swapEmailAddr', addrList)
   }
 }
